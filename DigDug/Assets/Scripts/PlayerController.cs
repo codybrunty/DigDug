@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour{
 
+    public MovementJoystick m_oMovementJoystick;
     public Camera m_oMainCamera;
     public float m_nMoveSpeed;
     public float m_nRotateSpeed;
@@ -16,8 +17,10 @@ public class PlayerController : MonoBehaviour{
     }
     
     private Vector3 MovementInput() {
-        float m_oHorizontal = Input.GetAxis("Horizontal");
-        float m_oVertical = Input.GetAxis("Vertical");
+        //float m_oHorizontal = Input.GetAxis("Horizontal");
+        //float m_oVertical = Input.GetAxis("Vertical");
+        float m_oHorizontal = m_oMovementJoystick.m_vJoystickVector.x;
+        float m_oVertical = m_oMovementJoystick.m_vJoystickVector.y;
         Vector3 movement = new Vector3(m_oHorizontal, 0f, m_oVertical);
         transform.Translate(movement * m_nMoveSpeed * Time.deltaTime, Space.World);
         
