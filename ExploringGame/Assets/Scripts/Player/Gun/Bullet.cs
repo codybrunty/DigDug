@@ -20,10 +20,12 @@ public class Bullet : MonoBehaviour{
 
     private void OnTriggerEnter(Collider obj) {
         if (obj.tag == "interactiveOBJ") {
-            obj.gameObject.GetComponent<InteractableObject>().hasGravity = false;
-            ObjectPoolingManager.m_oInstance.oSpawnFromPool("BulletHit", gameObject.transform.position, gameObject.transform.rotation);
-            m_oCurrentSeconds = 0f;
-            gameObject.SetActive(false);
+            if (obj.gameObject.GetComponent<InteractableObject>().hasGravity) {
+                obj.gameObject.GetComponent<InteractableObject>().hasGravity = false;
+                ObjectPoolingManager.m_oInstance.oSpawnFromPool("BulletHit", gameObject.transform.position, gameObject.transform.rotation);
+                m_oCurrentSeconds = 0f;
+                gameObject.SetActive(false);
+            }
         }
     }
 

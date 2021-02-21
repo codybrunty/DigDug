@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour{
     }
 
     private void Start() {
+        SetBaseSpeedAndRotation();
+    }
+
+    private void SetBaseSpeedAndRotation() {
         m_fCurrentMoveSpeed = m_fBaseMoveSpeed;
         m_fCurrentRotateSpeed = m_fBaseRotateSpeed;
     }
@@ -30,7 +34,7 @@ public class PlayerController : MonoBehaviour{
         Vector3 movementVector = MovementInput();
         RotateTowardMovementVector(movementVector);
     }
-    
+
     private Vector3 MovementInput() {
         float m_oHorizontal = m_oJoystick.Horizontal;
         float m_oVertical = m_oJoystick.Vertical;
@@ -42,7 +46,7 @@ public class PlayerController : MonoBehaviour{
 
     private void RotateTowardMovementVector(Vector3 movementVector) {
         movementVector = Quaternion.Euler(0f, m_oMainCamera.gameObject.transform.eulerAngles.y, 0f) * movementVector;
-        if (movementVector.magnitude == 0) { return; } 
+        if (movementVector.magnitude == 0) { return; }
         Quaternion rotation = Quaternion.LookRotation(movementVector);
         gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, rotation, m_fCurrentRotateSpeed);
     }
@@ -50,11 +54,6 @@ public class PlayerController : MonoBehaviour{
     public void vPlayerDead() {
         m_fCurrentMoveSpeed = 0f;
         m_fCurrentRotateSpeed = 0f;
-    }
-
-    public void vPlayerInjured() {
-        m_fCurrentMoveSpeed = m_fBaseMoveSpeed/4f;
-        m_fCurrentRotateSpeed = m_fBaseRotateSpeed/4f;
     }
 
     public void vPlayerHealthy() {

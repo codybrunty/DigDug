@@ -53,8 +53,6 @@ public class PlayerAnimationStateController : MonoBehaviour{
         }
     }
 
-
-
     #region Death
     public void vSetDeathAnimationState() {
         if (!m_oPlayerAnimator.GetBool("isDead")) {
