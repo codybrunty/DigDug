@@ -15,12 +15,17 @@ public class InteractableObject : MonoBehaviour{
 
     void FixedUpdate() {
         if (!hasGravity) {
-            rb.useGravity = false;
-            rb.mass = 1;
             rb.AddForce(Vector3.up * forceStrength);
             transform.Rotate(randomRotationStrength, randomRotationStrength, randomRotationStrength);
         }
-
     }
+
+    public void vMakeFloat() {
+        rb.useGravity = false;
+        rb.isKinematic = false;
+        rb.mass = 1;
+        hasGravity = false;
+    }
+    
 
 }

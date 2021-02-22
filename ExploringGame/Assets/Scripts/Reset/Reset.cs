@@ -5,8 +5,8 @@ using UnityEngine;
 public class Reset : MonoBehaviour{
     public void vResetButtonOnClick() {
         OxygenManager.m_oInstance.vResetOxygenValuesToLevel();
-        PlayerAnimationStateController.m_oInstance.AliveAnimationState();
-        PlayerController.m_oInstance.vPlayerHealthy();
+        PlayerManager.m_oInstance.m_oPlayerAnimationStateController.AliveAnimationState();
+        //PlayerManager.m_oInstance.m_oPlayerController.vPlayerHealthy();
     }
 
 }

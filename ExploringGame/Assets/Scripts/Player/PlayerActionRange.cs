@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class PlayerActionRange : MonoBehaviour{
@@ -8,13 +9,16 @@ public class PlayerActionRange : MonoBehaviour{
     List<GameItem> collectableItemsInRange = new List<GameItem>();
     public int itemCount;
     public TextMeshProUGUI itemCountText;
+    public Button messagePanelButton;
 
     private void OnTriggerEnter(Collider other) {
         GameItem item = other.GetComponent<GameItem>();
         if (item != null) {
             if (item.m_oIsCollectable) {
                 collectableItemsInRange.Add(item);
-                MessagePanelManager.m_oInstance.vOpenMessagePanel("Press \"E\" To PickUp " + item.m_oItemName);
+                messagePanelButton.onClick.RemoveAllListeners();
+                messagePanelButton.onClick.AddListener(vPickUpCollectableItem);
+                MessagePanelManager.m_oInstance.vOpenMessagePanel("Tap To Pick Up " + item.m_oItemName);
             }
         }
     }
@@ -29,15 +33,9 @@ public class PlayerActionRange : MonoBehaviour{
         }
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.E)) {
-            vPickUpCollectableItem();
-        }
-    }
-
     public void vPickUpCollectableItem() {
         if(collectableItemsInRange.Count > 0) {
-            if (!PlayerAnimationStateController.m_oInstance.m_oPlayerAnimator.GetBool("isDead")) {
+            if (!PlayerManager.m_oInstance.m_oPlayerAnimator.GetBool("isDead")) {
                 itemCount++;
                 itemCountText.text = itemCount.ToString();
 

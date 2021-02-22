@@ -33,33 +33,57 @@ public class OxygenManager : MonoBehaviour{
     }
 
     private void Update() {
-        if (!PlayerController.m_oInstance.inSafeZone) {
-            vRemoveOxygen();
-            vSetOxygenDisplay();
+        if (!PlayerManager.m_oInstance.m_oPlayerAttributes.inSafeZone) {
+            vRemoveOxygenOvertime();
         }
         else {
-            vAddOxygen();
-            vSetOxygenDisplay();
+            vAddOxygenOvertime();
         }
-
+        vSetOxygenDisplay();
     }
 
-    private void vRemoveOxygen() {
+    #region Oxygen Overtime
+    private void vRemoveOxygenOvertime() {
         m_fCurrentOxygen -= m_fOxygenLossCoefficient * Time.deltaTime;
-        if(m_fCurrentOxygen < 0f) {
+        vCheckForDeath();
+    }
+
+    private void vAddOxygenOvertime() {
+        m_fCurrentOxygen += m_fOxygenGainCoefficient * Time.deltaTime;
+        vCheckForMax();
+    }
+
+
+    #endregion
+
+    #region Oxygen Instant
+    public void vAddOxygen(float amount) {
+        amount /= 100f;
+        m_fCurrentOxygen += (m_fMaxOxygen * (amount));
+        vCheckForMax();
+    }
+    public void vRemoveOxygen(float amount) {
+        amount /= 100f;
+        m_fCurrentOxygen -= (m_fMaxOxygen*(amount));
+        vCheckForDeath();
+    }
+    #endregion
+
+    #region MinMax Check
+    private void vCheckForDeath() {
+        if (m_fCurrentOxygen < 0f) {
             m_fCurrentOxygen = 0f;
-            PlayerAnimationStateController.m_oInstance.vSetDeathAnimationState();
-            PlayerController.m_oInstance.vPlayerDead();
+            PlayerManager.m_oInstance.m_oPlayerAnimationStateController.vSetDeathAnimationState();
+            //PlayerManager.m_oInstance.m_oPlayerController.vPlayerDead();
         }
     }
 
-    private void vAddOxygen() {
-        m_fCurrentOxygen += m_fOxygenGainCoefficient * Time.deltaTime;
+    private void vCheckForMax() {
         if (m_fCurrentOxygen > m_fMaxOxygen) {
             m_fCurrentOxygen = m_fMaxOxygen;
         }
     }
-
+    #endregion
 
     #region Slider Display
 

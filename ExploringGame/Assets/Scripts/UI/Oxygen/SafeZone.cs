@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class SafeZone : MonoBehaviour{
 
-
     private void OnTriggerEnter(Collider obj) {
         if (obj.tag == "Player") {
             Debug.Log("Player Entered Safe Zone");
-            PlayerController.m_oInstance.inSafeZone = true;
+            PlayerManager.m_oInstance.m_oPlayerAttributes.inSafeZone = true;
         }
     }
 
@@ -16,7 +15,7 @@ public class SafeZone : MonoBehaviour{
     private void OnTriggerExit(Collider obj) {
         if (obj.tag == "Player") {
             Debug.Log("Player Exited Safe Zone");
-            PlayerController.m_oInstance.inSafeZone = false;
+            PlayerManager.m_oInstance.m_oPlayerAttributes.inSafeZone = false;
         }
     }
 

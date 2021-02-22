@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimationStateController : MonoBehaviour{
-    public static PlayerAnimationStateController m_oInstance;
-    public Animator m_oPlayerAnimator;
 
-    private void Awake() {
-        m_oInstance = this;
+    private Animator m_oPlayerAnimator;
+
+    private void Start() {
+        m_oPlayerAnimator = PlayerManager.m_oInstance.m_oPlayerAnimator;
     }
 
     public void SetAnimationState(float x, float y) {
@@ -51,6 +51,25 @@ public class PlayerAnimationStateController : MonoBehaviour{
         if (m_oPlayerAnimator.GetBool("isRunning")) {
             m_oPlayerAnimator.SetBool("isRunning", false);
         }
+    }
+
+    public void GroundedAnimation() {
+        if (!m_oPlayerAnimator.GetBool("isGrounded")) {
+            m_oPlayerAnimator.SetBool("isGrounded", true);
+        }
+    }
+    public void UnGroundedAnimation() {
+        if (m_oPlayerAnimator.GetBool("isGrounded")) {
+            m_oPlayerAnimator.SetBool("isGrounded", false);
+        }
+    }
+
+    public void FlyingAnimation() {
+        m_oPlayerAnimator.SetBool("isFlying", true);
+    }
+
+    public void FallingAnimation() {
+        m_oPlayerAnimator.SetBool("isFlying", false);
     }
 
     #region Death
